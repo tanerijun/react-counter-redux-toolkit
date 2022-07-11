@@ -1,45 +1,51 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { counterActions } from "./store";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [n, setN] = useState(2);
+  const counter = useSelector((state) => state.counter);
+  const dispatch = useDispatch();
+
+  const handleIncrement = () => {
+    dispatch(counterActions.increment());
+  };
+
+  const handleDecrement = () => {
+    dispatch(counterActions.decrement());
+  };
+
+  const handleIncrementBy = () => {
+    dispatch(counterActions.incrementBy(n));
+  };
+
+  const handleDecrementBy = () => {
+    dispatch(counterActions.decrementBy(n));
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div>
+      <h1>Counter App with Redux Toolkit</h1>
+      <h2>Current counter: {counter}</h2>
+      <div>
+        <button onClick={handleIncrement}>Increment</button>
+        <button onClick={handleDecrement}>Decrement</button>
+      </div>
+      <div>
+        <label>Change by:</label>
+        <input
+          type="number"
+          value={n}
+          onChange={(e) => setN(parseInt(e.target.value))}
+        />
+      </div>
+      <div>
+        <button onClick={handleIncrementBy}>Increment by</button>
+        <button onClick={handleDecrementBy}>Decrement by</button>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
